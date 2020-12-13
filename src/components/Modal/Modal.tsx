@@ -1,34 +1,54 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './styles.module.scss';
 import ModalContent from '../ModalContent';
+import EventEmitter from '../../services/EventEmitter';
 
-interface ModalProps {
-  content: JSX.Element;
-  children: ({ openModal }: { openModal: () => void }) => JSX.Element;
-}
+const Modal: React.FC = () => {
+  const [modals, setModals] = useState<JSX.Element[]>([]);
 
-const Modal: React.FC<ModalProps> = (props) => {
-  const { content, children } = props;
+  const closeModal = useCallback(
+    (modalIndex: number) => {
+      setModals(modals.filter((_, index) => index !== modalIndex));
+    },
+    [modals]
+  );
 
-  const [isOpen, setOpen] = useState(false);
+  useEffect(() => {
+    const openModal = (content: JSX.Element) => {
+      setModals([...modals, content]);
+    };
 
-  const openModal = () => setOpen(true);
-  const closeModal = () => setOpen(false);
+    EventEmitter.on('openModal', openModal);
+
+    return () => {
+      EventEmitter.removeListener('openModal', openModal);
+    };
+  }, [modals]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.code === 'Escape') closeModal(modals.length - 1);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [modals, closeModal]);
 
   return (
     <>
-      {isOpen &&
+      {modals.map((modal, modalIndex) =>
         ReactDOM.createPortal(
-          <div className={styles.container} onClick={closeModal}>
-            <ModalContent closeModal={closeModal}>{content}</ModalContent>
+          <div className={styles.container} onClick={() => closeModal(modalIndex)}>
+            <ModalContent>{modal}</ModalContent>
           </div>,
           document.body
-        )}
-      {children({ openModal })}
+        )
+      )}
     </>
   );
 };
