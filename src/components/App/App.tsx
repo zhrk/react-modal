@@ -1,24 +1,24 @@
 import Modal from '../Modal';
-import EventEmitter from '../../services/EventEmitter';
+import { openModal } from '../../helpers/modal';
+import styles from './styles.module.scss';
 
 const App: React.FC = () => {
-  const handleClick2 = () => {
-    EventEmitter.emit('openModal', <div>modal2</div>);
-  };
+  const content2 = <div>modal2</div>;
 
-  const handleClick = () => {
-    EventEmitter.emit(
-      'openModal',
-      <div>
-        <button type="button" onClick={handleClick2}>
-          modal2
-        </button>
-      </div>
-    );
-  };
+  const handleClick2 = () => openModal(content2);
+
+  const content = (
+    <div>
+      <button type="button" onClick={handleClick2}>
+        modal
+      </button>
+    </div>
+  );
+
+  const handleClick = () => openModal(content);
 
   return (
-    <div>
+    <div className={styles.container}>
       <button type="button" onClick={handleClick}>
         modal
       </button>
