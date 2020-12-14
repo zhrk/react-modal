@@ -12,6 +12,11 @@ const App: React.FC = () => {
       <button type="button" onClick={handleClick2}>
         modal
       </button>
+      <div className={styles.content}>
+        {Array(1000)
+          .fill('')
+          .map((_, i) => i * i)}
+      </div>
     </div>
   );
 

@@ -46,8 +46,12 @@ const Modal: React.FC = () => {
             <button type="button" className={styles.button}>
               X
             </button>
-            <div className={styles.inner} onClick={(event) => event.stopPropagation()}>
-              {modal}
+            <div className={styles.wrapper}>
+              <div className={styles.inner}>
+                <div className={styles.content} onClick={(event) => event.stopPropagation()}>
+                  {modal}
+                </div>
+              </div>
             </div>
           </div>,
           document.body
