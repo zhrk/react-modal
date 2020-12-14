@@ -4,7 +4,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './styles.module.scss';
-import ModalContent from '../ModalContent';
 import EventEmitter from '../../services/EventEmitter';
 
 const Modal: React.FC = () => {
@@ -44,7 +43,9 @@ const Modal: React.FC = () => {
       {modals.map((modal, modalIndex) =>
         ReactDOM.createPortal(
           <div className={styles.container} onClick={() => closeModal(modalIndex)}>
-            <ModalContent>{modal}</ModalContent>
+            <div className={styles.inner} onClick={(event) => event.stopPropagation()}>
+              {modal}
+            </div>
           </div>,
           document.body
         )
