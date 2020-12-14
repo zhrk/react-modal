@@ -43,6 +43,9 @@ const Modal: React.FC = () => {
       {modals.map((modal, modalIndex) =>
         ReactDOM.createPortal(
           <div className={styles.container} onClick={() => closeModal(modalIndex)}>
+            <button type="button" className={styles.button}>
+              X
+            </button>
             <div className={styles.inner} onClick={(event) => event.stopPropagation()}>
               {modal}
             </div>

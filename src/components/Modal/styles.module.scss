@@ -16,3 +16,16 @@
   height: 500px;
   background-color: #000;
 }
+
+.button {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
