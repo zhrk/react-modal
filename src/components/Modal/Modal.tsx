@@ -38,6 +38,14 @@ const Modal: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [modals, closeModalByIndex]);
 
+  useEffect(() => {
+    if (modals.length > 0) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.removeProperty('overflow');
+    }
+  }, [modals]);
+
   return (
     <>
       {modals.map((modal, modalIndex) => {
