@@ -40,6 +40,9 @@ const Modal: React.FC = () => {
 
   useEffect(() => {
     if (modals.length > 0) {
+      const scrollbarWidth = `${window.innerWidth - document.body.offsetWidth}px`;
+
+      document.body.style.paddingRight = scrollbarWidth;
       document.body.style.overflow = 'hidden';
     } else {
       document.body.removeAttribute('style');
