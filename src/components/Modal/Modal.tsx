@@ -42,7 +42,7 @@ const Modal: React.FC = () => {
     if (modals.length > 0) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.removeProperty('overflow');
+      document.body.removeAttribute('style');
     }
   }, [modals]);
 
